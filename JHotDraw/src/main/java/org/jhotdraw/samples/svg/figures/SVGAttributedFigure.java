@@ -52,9 +52,17 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
                     Rectangle2D.intersect(drawingArea, clipBounds, drawingArea);
                 }
                 
-                if (! drawingArea.isEmpty()) {
-                    
-                    BufferedImage buf = new BufferedImage(
+               if (! drawingArea.isEmpty()) {
+                    multiFigure(g, drawingArea, opacity);
+                }
+            } else {
+                drawFigure(g);
+            }                               
+        }
+    }
+    
+    public void multiFigure(Graphics2D g,Rectangle2D.Double drawingArea, double opacity){
+                            BufferedImage buf = new BufferedImage(
                             Math.max(1, (int) ((2 + drawingArea.width) * g.getTransform().getScaleX())),
                             Math.max(1, (int) ((2 + drawingArea.height) * g.getTransform().getScaleY())),
                             BufferedImage.TYPE_INT_ARGB);
@@ -69,11 +77,6 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
                     g.drawImage(buf, (int) drawingArea.x, (int) drawingArea.y,
                             2 + (int) drawingArea.width, 2 + (int) drawingArea.height, null);
                     g.setComposite(savedComposite);
-                }
-            } else {
-                drawFigure(g);
-            }
-        }
     }
     
     /**
